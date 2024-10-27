@@ -10,12 +10,20 @@ data class LibraryRepositoryResponse(
 ) {
     companion object {
         fun of(
-            bookImageLink: String, title: String, author: String,
-            publisher: String, publicationDate: String, loanAvailability: String
+            bookImageLink: String,
+            title: String,
+            author: String,
+            publisher: String,
+            publicationDate: String,
+            loanAvailability: String
         ): LibraryRepositoryResponse {
             return LibraryRepositoryResponse(
-                bookImageLink, title, author, publisher, publicationDate,
-                loanAvailability
+                bookImageLink = bookImageLink,
+                title = title,
+                author = author,
+                publisher = publisher,
+                publicationDate = publicationDate,
+                loanAvailability = loanAvailability
             )
         }
     }

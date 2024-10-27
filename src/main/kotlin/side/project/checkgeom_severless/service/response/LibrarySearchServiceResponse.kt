@@ -23,12 +23,12 @@ data class LibrarySearchServiceResponse(
                 repositoryResponse: LibraryRepositoryResponse
             ): BookDto {
                 return BookDto(
-                    repositoryResponse.bookImageLink,
-                    repositoryResponse.title,
-                    repositoryResponse.author,
-                    repositoryResponse.publisher,
-                    repositoryResponse.publicationDate,
-                    repositoryResponse.loanAvailability
+                    bookImageLink = repositoryResponse.bookImageLink,
+                    title = repositoryResponse.title,
+                    author = repositoryResponse.author,
+                    publisher = repositoryResponse.publisher,
+                    publicationDate = repositoryResponse.publicationDate,
+                    loanAvailability = repositoryResponse.loanAvailability
                 )
             }
 
@@ -41,12 +41,12 @@ data class LibrarySearchServiceResponse(
                 loanAvailability: String
             ): BookDto {
                 return BookDto(
-                    bookImageLink,
-                    title,
-                    author,
-                    publisher,
-                    publicationDate,
-                    loanAvailability
+                   bookImageLink = bookImageLink,
+                   title = title,
+                   author = author,
+                   publisher = publisher,
+                   publicationDate = publicationDate,
+                   loanAvailability = loanAvailability
                 )
             }
         }
@@ -55,9 +55,16 @@ data class LibrarySearchServiceResponse(
     companion object {
         fun of(
             bookList: List<BookDto>,
-            bookSearchTotalCount: Int, moreViewLink: List<String>, libraryTypeText: String
+            bookSearchTotalCount: Int,
+            moreViewLink: List<String>,
+            libraryTypeText: String
         ): LibrarySearchServiceResponse {
-            return LibrarySearchServiceResponse(bookList, bookSearchTotalCount, moreViewLink, libraryTypeText)
+            return LibrarySearchServiceResponse(
+                bookDtoList = bookList,
+                bookSearchTotalCount = bookSearchTotalCount,
+                moreViewLink = moreViewLink,
+                libraryTypeText = libraryTypeText
+            )
         }
     }
 }

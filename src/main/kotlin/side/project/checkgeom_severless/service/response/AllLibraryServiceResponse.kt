@@ -1,59 +1,63 @@
-package side.project.checkgeom_severless.service.response;
+package side.project.checkgeom_severless.service.response
 
-import java.util.List;
+import side.project.checkgeom_severless.repository.response.LibraryRepositoryResponse
 
-import io.dodn.springboot.storage.db.core.response.LibraryRepositoryResponse;
 
-public record AllLibraryServiceResponse(List<LibrarySearchServiceResponse> librarySearchServiceResponseList, String libraryTypeText) {
+data class AllLibraryServiceResponse(
+    val librarySearchServiceResponseList: List<LibrarySearchServiceResponse>,
+    val libraryTypeText: String
+) {
+    data class BookDto(
+        val bookImageLink: String,
+        val title: String,
+        val author: String,
+        val publisher: String,
+        val publicationDate: String,
+        val loanAvailability: String
+    ) {
 
-    public static AllLibraryServiceResponse of(List<LibrarySearchServiceResponse> librarySearchServiceResponseList, String libraryTypeText) {
-        return new AllLibraryServiceResponse(librarySearchServiceResponseList, libraryTypeText);
+        companion object {
+            fun of(
+                repositoryResponse: LibraryRepositoryResponse
+            ): BookDto {
+                return BookDto(
+                   bookImageLink= repositoryResponse.bookImageLink,
+                   title= repositoryResponse.title,
+                   author= repositoryResponse.author,
+                   publisher= repositoryResponse.publisher,
+                   publicationDate= repositoryResponse.publicationDate,
+                   loanAvailability= repositoryResponse.loanAvailability
+                )
+            }
+
+            fun of(
+                bookImageLink: String,
+                title: String,
+                author: String,
+                publisher: String,
+                publicationDate: String,
+                loanAvailability: String
+            ): BookDto {
+                return BookDto(
+                   bookImageLink= bookImageLink,
+                   title= title,
+                   author= author,
+                   publisher= publisher,
+                   publicationDate= publicationDate,
+                   loanAvailability= loanAvailability
+                )
+            }
+        }
     }
 
-    public record BookDto(String bookImageLink, String title, String author, String publisher, String publicationDate,
-                          String loanAvailability) {
-
-        public static BookDto of(
-                LibraryRepositoryResponse repositoryResponse) {
-
-            return new BookDto(repositoryResponse.bookImageLink(),
-                    repositoryResponse.title(), repositoryResponse.author(), repositoryResponse.publisher(),
-                    repositoryResponse.publicationDate(), repositoryResponse.loanAvailability());
+    companion object {
+        fun of(
+            librarySearchServiceResponseList: List<LibrarySearchServiceResponse>,
+            libraryTypeText: String
+        ): AllLibraryServiceResponse {
+            return AllLibraryServiceResponse(
+               librarySearchServiceResponseList =  librarySearchServiceResponseList,
+                libraryTypeText =  libraryTypeText)
         }
-
-        public static BookDto of(
-                String bookImageLink,
-                String title,
-                String author,
-                String publisher,
-                String publicationDate,
-                String loanAvailability
-        ) {
-            return new BookDto(
-                    bookImageLink,
-                    title,
-                    author,
-                    publisher,
-                    publicationDate,
-                    loanAvailability
-            );
-        }
-
-
-
-        @Override
-        public String toString() {
-            return "BookDto{" +
-                    "bookImageLink='" + bookImageLink + '\'' +
-                    ", title='" + title + '\'' +
-                    ", author='" + author + '\'' +
-                    ", publisher='" + publisher + '\'' +
-                    ", publicationDate='" + publicationDate + '\'' +
-                    ", loanAvailability='" + loanAvailability + '\'' +
-                    '}';
-        }
-
-
     }
-
 }
