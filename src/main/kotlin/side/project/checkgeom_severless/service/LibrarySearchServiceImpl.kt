@@ -13,10 +13,17 @@ import java.util.stream.Stream
 
 @Service
 class LibrarySearchServiceImpl(
-     val libraryRepository : LibrarySearchRepository
+    private val libraryRepository : LibrarySearchRepository ,
+    private val librarySearchServiceImpl: LibrarySearchServiceImpl ,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
+
+
+    fun test (searchKeyword: String) {
+        val gyeonggiDoCyberLibrarySearch = libraryRepository.gyeonggiDoCyberLibrarySearch(searchKeyword)
+        println("결과임 = " + gyeonggiDoCyberLibrarySearch.toString())
+    }
 
 
 

@@ -34,7 +34,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-function-context:4.1.0-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework:spring-webflux:5.3.23")
-    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+//    implementation("org.springframework.boot:spring-boot-starter-log4j2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test:${project.extra["kotlin.version"]}")
