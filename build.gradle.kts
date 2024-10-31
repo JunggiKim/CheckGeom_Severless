@@ -24,10 +24,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 
-    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-    implementation("io.github.openfeign:feign-hc5")
-    implementation("io.github.openfeign:feign-micrometer")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("io.projectreactor.netty:reactor-netty-http") // Reactor Netty HttpClient 의존성
 
+
+    // Spring cloud
     implementation("org.springframework.cloud:spring-cloud-function-kotlin:4.1.0")
     implementation("org.springframework.cloud:spring-cloud-function-web:4.1.0-SNAPSHOT")
     implementation("org.springframework.cloud:spring-cloud-function-context:4.1.0-SNAPSHOT")

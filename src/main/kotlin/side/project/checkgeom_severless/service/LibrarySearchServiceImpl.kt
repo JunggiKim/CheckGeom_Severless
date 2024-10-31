@@ -13,11 +13,11 @@ import java.util.stream.Stream
 
 @Service
 class LibrarySearchServiceImpl(
-    private val librarySearchRepository: LibrarySearchRepository
-
+     val libraryRepository : LibrarySearchRepository
 ) {
-
     private val log: Logger = LoggerFactory.getLogger(javaClass)
+
+
 
 
     // 소장형이든 구독형 최대 첫화면에서는 6개만 보여준다.
@@ -41,6 +41,27 @@ class LibrarySearchServiceImpl(
 
 //        return LibrarySearchServiceResponse.of(bookDtoList, bookSearchTotalCount, moreViewLink, LibraryType.GYEONGGIDO_CYBER.getKoreanText());
 //    }
+
+
+
+     fun gyeonggiDoCyberLibrarySearch2(searchKeyword: String)  {
+
+
+//        val gyeonggiDoCyberLibrarySearch = librarySearchRepository.gyeonggiDoCyberLibrarySearch(searchKeyword);
+
+//        val bookDtoList : List<LibrarySearchServiceResponse.BookDto>  =
+//        val map = gyeonggiDoCyberLibrarySearch.map { response -> LibrarySearchServiceResponse.BookDto.of(response) }
+//            map.
+        //        final Element htmlBody = gyeonggiDoCyberLibraryReader.getGyeonggiDoCyberLibraryHtmlBody(searchKeyword);
+//
+//        final List<String> moreViewLink = gyeonggiDoCyberLibraryReader.getMoreViewLinks(searchKeyword, htmlBody);
+//
+//        final List<LibrarySearchServiceResponse.BookDto> bookDtoList = gyeonggiDoCyberLibraryReader.searchBookList(htmlBody);
+//
+//        final int bookSearchTotalCount = gyeonggiDoCyberLibraryReader.getBookSearchTotalCount(htmlBody);
+
+//        return LibrarySearchServiceResponse.of(bookDtoList, bookSearchTotalCount, moreViewLink, LibraryType.GYEONGGIDO_CYBER.getKoreanText());
+    }
 
 
     // 경기도사이버도서관 더 보기에 맞는 모든 북을 가져오는 로직
@@ -158,4 +179,5 @@ class LibrarySearchServiceImpl(
     //
     //     return AllLibraryServiceResponse.of(resultList, LibraryType.ALL.getKoreanText());
     // }
+
 }

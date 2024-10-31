@@ -1,15 +1,15 @@
-package side.project.checkgeom_severless.service;
+package side.project.checkgeom_severless.service
+
+import side.project.checkgeom_severless.service.response.AllLibraryServiceResponse
+import side.project.checkgeom_severless.service.response.LibrarySearchServiceResponse
 
 
-import side.project.checkgeom_severless.service.response.AllLibraryServiceResponse;
-import side.project.checkgeom_severless.service.response.LibrarySearchServiceResponse;
+interface LibrarySearchService {
+    fun gyeonggiDoCyberLibrarySearch(searchKeyword: String?): LibrarySearchServiceResponse?
 
-public interface LibrarySearchService {
-	LibrarySearchServiceResponse gyeonggiDoCyberLibrarySearch(String searchKeyword);
+    fun gyeonggiEducationalElectronicLibrarySearch(searchKeyword: String?): LibrarySearchServiceResponse?
 
-	LibrarySearchServiceResponse gyeonggiEducationalElectronicLibrarySearch(String searchKeyword);
+    fun smallBusinessLibrarySearch(searchKeyword: String?): LibrarySearchServiceResponse?
 
-	LibrarySearchServiceResponse smallBusinessLibrarySearch(String searchKeyword);
-
-	AllLibraryServiceResponse allLibraryAsyncSearch(String searchKeyword);
+    fun allLibraryAsyncSearch(searchKeyword: String?): AllLibraryServiceResponse?
 }

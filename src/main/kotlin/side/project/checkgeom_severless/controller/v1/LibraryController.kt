@@ -16,7 +16,7 @@ class LibraryController(
 
     @GetMapping("/api/v1/gyeonggiDoCyberLibrary")
     fun gyeonggiDoCyberLibrarySearch(
-        @RequestParam searchKeyword: String
+        @RequestParam searchKeyword: String?
     ): ApiResponse<*> {
         val librarySearchServiceResponse: LibrarySearchServiceResponse =
             libraryService.gyeonggiDoCyberLibrarySearch(searchKeyword)
