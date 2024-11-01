@@ -8,13 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest
 
 
 @SpringBootTest
-abstract class LibrarySearchServiceImplTests {
+class LibrarySearchServiceImplTests {
 
     @Autowired
     private lateinit var librarySearchServiceImpl: LibrarySearchServiceImpl
 
     @Test
     fun test1() {
-        librarySearchServiceImpl.test("abc");
+        val gyeonggiDoCyberLibrarySearch = librarySearchServiceImpl.gyeonggiDoCyberLibrarySearch("abc")
+        gyeonggiDoCyberLibrarySearch.bookDtoList.forEach{ println(it) }
     }
 }

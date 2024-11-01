@@ -24,8 +24,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("io.projectreactor.netty:reactor-netty-http") // Reactor Netty HttpClient 의존성
+
+    implementation ("org.springframework.boot:spring-boot-starter-validation")
+    implementation ("org.seleniumhq.selenium:selenium-java:4.6.0")
+    implementation ("org.htmlunit:htmlunit:4.3.0")
+    implementation ("org.jsoup:jsoup:1.7.2")
+    implementation("io.github.bonigarcia:webdrivermanager:5.9.2")
 
 
     // Spring cloud

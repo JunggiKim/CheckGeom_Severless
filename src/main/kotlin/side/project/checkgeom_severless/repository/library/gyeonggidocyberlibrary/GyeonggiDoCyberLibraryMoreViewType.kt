@@ -1,26 +1,22 @@
-package side.project.checkgeom_severless.repository.library.gyeonggidocyberlibrary;
+package side.project.checkgeom_severless.repository.library.gyeonggidocyberlibrary
 
-public record GyeonggiDoCyberLibraryMoreViewType(
-        GyeonggiDoCyberLibraryBookType bookType ,
-        int totalCount
+data class GyeonggiDoCyberLibraryMoreViewType(
+    val bookType: GyeonggiDoCyberLibraryBookType,
+    val totalCount: Int
 ) {
+    val isMoreView: Boolean
+        get() = this.totalCount > 6
+
+    val isNotMoreView: Boolean
+        get() = this.totalCount <= 6
 
 
-    public static GyeonggiDoCyberLibraryMoreViewType of (GyeonggiDoCyberLibraryBookType bookType , int totalCount) {
-        return new GyeonggiDoCyberLibraryMoreViewType(
+    companion object {
+        fun of(bookType: GyeonggiDoCyberLibraryBookType, totalCount: Int): GyeonggiDoCyberLibraryMoreViewType {
+            return GyeonggiDoCyberLibraryMoreViewType(
                 bookType,
                 totalCount
-        );
+            )
+        }
     }
-
-
-    public boolean isMoreView () {
-        return this.totalCount > 6 ;
-    }
-
-    public boolean isNotMoreView () {
-        return this.totalCount <= 6 ;
-    }
-
-
 }

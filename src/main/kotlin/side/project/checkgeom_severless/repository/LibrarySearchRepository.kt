@@ -9,7 +9,7 @@ import side.project.checkgeom_severless.repository.response.LibraryRepositoryRes
 
 @Repository
 class LibrarySearchRepository(
-     private val restClient: RestClient ,
+    private val restClient: RestClient,
 ) {
 
 
@@ -18,11 +18,17 @@ class LibrarySearchRepository(
             .uri(GyeonggiDoCyberLibrary.basicSearchUrlCreate(searchKeyword))
             .retrieve()
             .body(Map::class.java)
-
-//            .(object : ParameterizedTypeReference<Map<String, Any>>() {})
-//            .body(Map);
     }
 
+    fun gyeonggiDoCyberLibrarySearch2(searchKeyword: String) {
+        println("result = " +  GyeonggiDoCyberLibrary.basicSearchUrlCreate(searchKeyword))
+
+
+        //         return restClient.get()
+//             .uri(GyeonggiDoCyberLibrary.basicSearchUrlCreate(searchKeyword))
+//             .retrieve()
+//             .body(Map::class.java)
     }
 
 
+}

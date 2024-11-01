@@ -1,20 +1,22 @@
-package side.project.checkgeom_severless.domain;
+package side.project.checkgeom_severless.domain
 
-public record MoreView (
-       boolean moreView,
-       int totalCount
-){
-    public static MoreView create (
-            int totalCount
-    ) {
-        return new MoreView(
+@JvmRecord
+data class MoreView(
+    val moreView: Boolean,
+    val totalCount: Int
+) {
+    companion object {
+        fun create(
+            totalCount: Int
+        ): MoreView {
+            return MoreView(
                 isMoreView(totalCount),
                 totalCount
-        );
-    }
+            )
+        }
 
-    private static boolean isMoreView(int totalCount) {
-        return totalCount >= 10;
+        private fun isMoreView(totalCount: Int): Boolean {
+            return totalCount >= 10
+        }
     }
-
 }

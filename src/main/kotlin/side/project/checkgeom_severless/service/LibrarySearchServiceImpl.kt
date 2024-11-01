@@ -1,9 +1,12 @@
 package side.project.checkgeom_severless.service
 
+import org.jsoup.nodes.Element
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Hooks
+import side.project.checkgeom_severless.domain.LibraryType
+import side.project.checkgeom_severless.repository.GyeonggiDoCyberLibraryReader
 import side.project.checkgeom_severless.repository.LibrarySearchRepository
 import side.project.checkgeom_severless.repository.response.LibraryRepositoryResponse
 import side.project.checkgeom_severless.service.response.LibrarySearchServiceResponse
@@ -13,45 +16,43 @@ import java.util.stream.Stream
 
 @Service
 class LibrarySearchServiceImpl(
-    private val libraryRepository : LibrarySearchRepository ,
-    private val librarySearchServiceImpl: LibrarySearchServiceImpl ,
+    private val libraryRepository: LibrarySearchRepository,
+    private val gyeonggiDoCyberLibraryReader: GyeonggiDoCyberLibraryReader
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
 
-
-    fun test (searchKeyword: String) {
-        val gyeonggiDoCyberLibrarySearch = libraryRepository.gyeonggiDoCyberLibrarySearch(searchKeyword)
-        println("결과임 = " + gyeonggiDoCyberLibrarySearch.toString())
+    fun test(searchKeyword: String) {
+        val gyeonggiDoCyberLibrarySearch = libraryRepository.gyeonggiDoCyberLibrarySearch2(searchKeyword)
+        println("결과 임 = " + gyeonggiDoCyberLibrarySearch.toString())
     }
-
 
 
     // 소장형이든 구독형 최대 첫화면에서는 6개만 보여준다.
     // 그래서 숫자 값을 찾아서 만약 총값이 6개이상이라면 더보기칸을 눌러서 들어간다
     // gyeonggiDoCyberLibrarySearch 의 경우 가져오는게 api로 변경이 있을 수 있기에 AOP로 따로 뺴두도록하자 웹드라이버의 기능을 빼 둘수가있나 한번 알아보자
-//    override fun gyeonggiDoCyberLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
+    fun gyeonggiDoCyberLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
 
 
-//        val gyeonggiDoCyberLibrarySearch = librarySearchRepository.gyeonggiDoCyberLibrarySearch(searchKeyword);
+        val htmlBody: Element = gyeonggiDoCyberLibraryReader.getGyeonggiDoCyberLibraryHtmlBody(searchKeyword);
 
-//        val bookDtoList : List<LibrarySearchServiceResponse.BookDto>  =
-//        val map = gyeonggiDoCyberLibrarySearch.map { response -> LibrarySearchServiceResponse.BookDto.of(response) }
-//            map.
-        //        final Element htmlBody = gyeonggiDoCyberLibraryReader.getGyeonggiDoCyberLibraryHtmlBody(searchKeyword);
-//
-//        final List<String> moreViewLink = gyeonggiDoCyberLibraryReader.getMoreViewLinks(searchKeyword, htmlBody);
-//
-//        final List<LibrarySearchServiceResponse.BookDto> bookDtoList = gyeonggiDoCyberLibraryReader.searchBookList(htmlBody);
-//
-//        final int bookSearchTotalCount = gyeonggiDoCyberLibraryReader.getBookSearchTotalCount(htmlBody);
+        val moreViewLink: List<String> = gyeonggiDoCyberLibraryReader.getMoreViewLinks(searchKeyword, htmlBody);
 
-//        return LibrarySearchServiceResponse.of(bookDtoList, bookSearchTotalCount, moreViewLink, LibraryType.GYEONGGIDO_CYBER.getKoreanText());
-//    }
+        val bookDtoList: List<LibrarySearchServiceResponse.BookDto> =
+            gyeonggiDoCyberLibraryReader.searchBookList(htmlBody);
+
+        val bookSearchTotalCount : Int = gyeonggiDoCyberLibraryReader.getBookSearchTotalCount(htmlBody);
+
+        return LibrarySearchServiceResponse.of(
+            bookDtoList,
+            bookSearchTotalCount,
+            moreViewLink,
+            LibraryType.GYEONGGIDO_CYBER.koreanText
+        );
+    }
 
 
-
-     fun gyeonggiDoCyberLibrarySearch2(searchKeyword: String)  {
+    fun gyeonggiDoCyberLibrarySearch2(searchKeyword: String) {
 
 
 //        val gyeonggiDoCyberLibrarySearch = librarySearchRepository.gyeonggiDoCyberLibrarySearch(searchKeyword);

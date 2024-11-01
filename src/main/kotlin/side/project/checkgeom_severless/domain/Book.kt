@@ -1,46 +1,15 @@
-package side.project.checkgeom_severless.domain;
+package side.project.checkgeom_severless.domain
 
-public class Book {
-
-     private final String bookImageLink;
-     private final String title;
-     private final String author;
-     private final String publisher;
-     private final String publicationDate;
-     private final String loanAvailability;
-
-
-
-    private Book(String bookImageLink, String title, String author, String publisher, String publicationDate, String loanAvailability) {
-        this.bookImageLink = bookImageLink;
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-        this.publicationDate = publicationDate;
-        this.loanAvailability = loanAvailability;
-    }
-
-
-    public static Book of(
-            String bookImageLink,
-            String title,
-            String author,
-            String publisher,
-            String publicationDate,
-            String loanAvailability
-    ) {
-        return new Book(
-                bookImageLink,
-                title,
-                author,
-                publisher,
-                publicationDate,
-                loanAvailability);
-    }
-
-
-    @Override
-    public String toString() {
+class Book
+private constructor(
+    private val bookImageLink: String,
+    private val title: String,
+    private val author: String,
+    private val publisher: String,
+    private val publicationDate: String,
+    private val loanAvailability: String
+) {
+    override fun toString(): String {
         return "BookDto{" +
                 "bookImageLink='" + bookImageLink + '\'' +
                 ", title='" + title + '\'' +
@@ -48,8 +17,27 @@ public class Book {
                 ", publisher='" + publisher + '\'' +
                 ", publicationDate='" + publicationDate + '\'' +
                 ", loanAvailability='" + loanAvailability + '\'' +
-                '}';
+                '}'
     }
 
 
+    companion object {
+        fun of(
+            bookImageLink: String,
+            title: String,
+            author: String,
+            publisher: String,
+            publicationDate: String,
+            loanAvailability: String
+        ): Book {
+            return Book(
+                bookImageLink,
+                title,
+                author,
+                publisher,
+                publicationDate,
+                loanAvailability
+            )
+        }
+    }
 }
