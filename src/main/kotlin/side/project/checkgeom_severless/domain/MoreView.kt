@@ -1,8 +1,7 @@
 package side.project.checkgeom_severless.domain
 
-@JvmRecord
 data class MoreView(
-    val moreView: Boolean,
+    val isMoreView: Boolean,
     val totalCount: Int
 ) {
     companion object {

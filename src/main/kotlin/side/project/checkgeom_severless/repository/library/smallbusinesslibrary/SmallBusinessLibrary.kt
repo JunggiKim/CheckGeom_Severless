@@ -1,29 +1,24 @@
-package side.project.checkgeom_severless.repository.library.smallbusinesslibrary;
+package side.project.checkgeom_severless.repository.library.smallbusinesslibrary
 
 
-public class SmallBusinessLibrary {
+object SmallBusinessLibrary {
+    private const val BASIC_SEARCH_URL =
+        "https://semas.dkyobobook.co.kr/search/searchList.ink?schClst=all&schDvsn=001&orderByKey=&schTxt="
+    private const val MORE_VIEW_URL =
+        "https://semas.dkyobobook.co.kr/search/searchList.ink?schClst=all&schDvsn=001&orderByKey=&reSchTxt=&pageIndex=1&recordCount=20"
 
-    private static final String BASIC_SEARCH_URL = "https://semas.dkyobobook.co.kr/search/searchList.ink?schClst=all&schDvsn=001&orderByKey=&schTxt=";
-    private static final String MORE_VIEW_URL =
-            "https://semas.dkyobobook.co.kr/search/searchList.ink?schClst=all&schDvsn=001&orderByKey=&reSchTxt=&pageIndex=1&recordCount=20";
+    const val ROW_COUNT: String = "&selViewCnt="
+    const val SEARCH_TEXT: String = "&schTxt="
 
-    public static final String ROW_COUNT = "&selViewCnt=";
-    public static final String SEARCH_TEXT = "&schTxt=";
-
-    public static String basicUrlCreate(String searchKeyword) {
-            return BASIC_SEARCH_URL.concat(searchKeyword);
+    fun basicUrlCreate(searchKeyword: String): String {
+        return BASIC_SEARCH_URL + searchKeyword
     }
 
 
-
-    public static String moreViewUrlCreate(String searchKeyword , int totalSearchCount) {
-        return new StringBuilder(MORE_VIEW_URL)
-                .append(SEARCH_TEXT).append(searchKeyword)
-                .append(ROW_COUNT).append(totalSearchCount)
-                .toString();
+    fun moreViewUrlCreate(searchKeyword: String?, totalSearchCount: Int): String {
+        return StringBuilder(MORE_VIEW_URL)
+            .append(SEARCH_TEXT).append(searchKeyword)
+            .append(ROW_COUNT).append(totalSearchCount)
+            .toString()
     }
-
-
-
-
 }
