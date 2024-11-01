@@ -1,6 +1,7 @@
 //package side.project.checkgeom_severless.controller.v1
 //
 //
+//import jakarta.validation.constraints.NotBlank
 //import org.springframework.web.bind.annotation.GetMapping
 //import org.springframework.web.bind.annotation.PathVariable
 //import org.springframework.web.bind.annotation.RequestParam
@@ -16,7 +17,7 @@
 //
 //    @GetMapping("/api/v1/gyeonggiDoCyberLibrary")
 //    fun gyeonggiDoCyberLibrarySearch(
-//        @RequestParam searchKeyword: String?
+//        @NotBlank @RequestParam searchKeyword: String
 //    ): ApiResponse<*> {
 //        val librarySearchServiceResponse: LibrarySearchServiceResponse =
 //            libraryService.gyeonggiDoCyberLibrarySearch(searchKeyword)
@@ -25,14 +26,14 @@
 //
 //    @GetMapping("/api/v1/gyeonggiEducationalElectronic")
 //    fun gyeonggiEducationalElectronicLibrarySearch(
-//        @RequestParam searchKeyword: String
+//        @PathVariable searchKeyword: String
 //    ): ApiResponse<*> {
 //        return ApiResponse.success(libraryService.gyeonggiEducationalElectronicLibrarySearch(searchKeyword))
 //    }
 //
 //    @GetMapping("/api/v1/smallBusiness/{searchKeyword}")
 //    fun smallBusinessLibrarySearch(
-//        @RequestParam searchKeyword: String
+//        @PathVariable searchKeyword: String
 //    ): ApiResponse<*> {
 //        return ApiResponse.success(libraryService.smallBusinessLibrarySearch(searchKeyword))
 //    }

@@ -18,10 +18,14 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
+extra["springCloudVersion"] = "2023.0.0"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.github.kittinunf.fuel:fuel:3.0.0-alpha1")
 
 
 
@@ -33,9 +37,8 @@ dependencies {
 
 
     // Spring cloud
-    implementation("org.springframework.cloud:spring-cloud-function-kotlin:4.1.0")
-    implementation("org.springframework.cloud:spring-cloud-function-web:4.1.0-SNAPSHOT")
-    implementation("org.springframework.cloud:spring-cloud-function-context:4.1.0-SNAPSHOT")
+    implementation("org.springframework.cloud:spring-cloud-function-web")
+    implementation("org.springframework.cloud:spring-cloud-function-adapter-aws")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework:spring-webflux:5.3.23")
 //    implementation("org.springframework.boot:spring-boot-starter-log4j2")
@@ -46,7 +49,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.3")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }
 

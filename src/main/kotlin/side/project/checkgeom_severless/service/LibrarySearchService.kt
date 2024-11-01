@@ -5,11 +5,11 @@ import side.project.checkgeom_severless.service.response.LibrarySearchServiceRes
 
 
 interface LibrarySearchService {
-    fun gyeonggiDoCyberLibrarySearch(searchKeyword: String?): LibrarySearchServiceResponse?
+    fun gyeonggiDoCyberLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse
 
-    fun gyeonggiEducationalElectronicLibrarySearch(searchKeyword: String?): LibrarySearchServiceResponse?
+    fun gyeonggiEducationalElectronicLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse
 
-    fun smallBusinessLibrarySearch(searchKeyword: String?): LibrarySearchServiceResponse?
+    fun smallBusinessLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse
 
-    fun allLibraryAsyncSearch(searchKeyword: String?): AllLibraryServiceResponse?
+    suspend fun allLibraryAsyncSearch(searchKeyword: String): AllLibraryServiceResponse
 }

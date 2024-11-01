@@ -4,10 +4,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class CheckGeomSeverlessApplication
+class CheckGeomServerlessApplication
 
 
 
 fun main(args: Array<String>) {
-	runApplication<CheckGeomSeverlessApplication>(*args)
+	runApplication<CheckGeomServerlessApplication>(*args)
 }

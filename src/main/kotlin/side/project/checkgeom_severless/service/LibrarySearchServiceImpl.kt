@@ -25,11 +25,10 @@ import java.util.stream.Stream
 
 @Service
 class LibrarySearchServiceImpl(
-    private val libraryRepository: LibrarySearchRepository,
     private val gyeonggiDoCyberLibraryReader: GyeonggiDoCyberLibraryReader,
     private val gyeonggiEducationalElectronicLibraryReader: GyeonggiEducationalElectronicLibraryReader ,
     private val smallBusinessLibraryReader: SmallBusinessLibraryReader
-) {
+) : LibrarySearchService {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
 
@@ -38,7 +37,7 @@ class LibrarySearchServiceImpl(
     // 소장형이든 구독형 최대 첫화면에서는 6개만 보여준다.
     // 그래서 숫자 값을 찾아서 만약 총값이 6개이상이라면 더보기칸을 눌러서 들어간다
     // gyeonggiDoCyberLibrarySearch 의 경우 가져오는게 api로 변경이 있을 수 있기에 AOP로 따로 뺴두도록하자 웹드라이버의 기능을 빼 둘수가있나 한번 알아보자
-    fun gyeonggiDoCyberLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
+  override fun gyeonggiDoCyberLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
 
 
         val htmlBody: Element = gyeonggiDoCyberLibraryReader.getGyeonggiDoCyberLibraryHtmlBody(searchKeyword);
@@ -85,7 +84,7 @@ class LibrarySearchServiceImpl(
 
 
     // 기본 검색한 책 목록과 책 총 결과 수 와 검색결과 모두 볼수있는 더보기링크 까지 보내주자
-     fun gyeonggiEducationalElectronicLibrarySearch(keyword: String): LibrarySearchServiceResponse {
+    override fun gyeonggiEducationalElectronicLibrarySearch(keyword: String): LibrarySearchServiceResponse {
         val searchUrl: String = gyeonggiEducationalElectronicLibrary.basicSearchUrlCreate(keyword)
 
         val document: Document =
@@ -108,7 +107,7 @@ class LibrarySearchServiceImpl(
     }
 
 
-     fun smallBusinessLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
+    override fun smallBusinessLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
         // TODO 기본 URL 불러오기까지는 가능하게 해놨다.
         //   이제 값을 가져오기만 하면 될듯 하다.
 
@@ -131,17 +130,15 @@ class LibrarySearchServiceImpl(
         )
     }
 
-    suspend fun allLibraryAsyncSearch(searchKeyword: String): AllLibraryServiceResponse = coroutineScope {
+    override suspend fun allLibraryAsyncSearch(searchKeyword: String): AllLibraryServiceResponse = coroutineScope {
         // 각 라이브러리 검색 작업을 비동기적으로 시작합니다.
+        val smallBusinessResponse = async { smallBusinessLibrarySearch(searchKeyword) }
         val gyeonggiDoCyberResponse = async { gyeonggiDoCyberLibrarySearch(searchKeyword) }
         val gyeonggiEducationalElectronicResponse = async { gyeonggiEducationalElectronicLibrarySearch(searchKeyword) }
-        val smallBusinessResponse = async { smallBusinessLibrarySearch(searchKeyword) }
 
-        // 모든 비동기 작업의 결과를 기다리고 수집합니다.
         val resultList = listOf(gyeonggiDoCyberResponse, gyeonggiEducationalElectronicResponse, smallBusinessResponse)
-            .awaitAll()  // 모든 결과를 기다린 후 리스트로 변환합니다.
+            .awaitAll()
 
-        // 결과 리스트를 AllLibraryServiceResponse 객체로 반환합니다.
         AllLibraryServiceResponse.of(resultList, LibraryType.ALL.koreanText)
     }
 
