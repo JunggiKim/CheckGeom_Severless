@@ -9,6 +9,7 @@ import org.jsoup.select.Elements
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.web.client.RestClient
 import side.project.checkgeom_severless.domain.LibraryType
 import side.project.checkgeom_severless.repository.GyeonggiDoCyberLibraryReader
 import side.project.checkgeom_severless.repository.GyeonggiEducationalElectronicLibraryReader
@@ -27,7 +28,7 @@ import java.util.stream.Stream
 class LibrarySearchServiceImpl(
     private val gyeonggiDoCyberLibraryReader: GyeonggiDoCyberLibraryReader,
     private val gyeonggiEducationalElectronicLibraryReader: GyeonggiEducationalElectronicLibraryReader ,
-    private val smallBusinessLibraryReader: SmallBusinessLibraryReader
+    private val smallBusinessLibraryReader: SmallBusinessLibraryReader ,
 ) : LibrarySearchService {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -39,6 +40,9 @@ class LibrarySearchServiceImpl(
     // gyeonggiDoCyberLibrarySearch 의 경우 가져오는게 api로 변경이 있을 수 있기에 AOP로 따로 뺴두도록하자 웹드라이버의 기능을 빼 둘수가있나 한번 알아보자
   override fun gyeonggiDoCyberLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
 
+        val html = gyeonggiDoCyberLibraryReader.getHtml()
+
+//        println("결과값 = $html")
 
         val htmlBody: Element = gyeonggiDoCyberLibraryReader.getGyeonggiDoCyberLibraryHtmlBody(searchKeyword);
 
@@ -48,6 +52,12 @@ class LibrarySearchServiceImpl(
             gyeonggiDoCyberLibraryReader.searchBookList(htmlBody);
 
         val bookSearchTotalCount : Int = gyeonggiDoCyberLibraryReader.getBookSearchTotalCount(htmlBody);
+
+
+        println("결과값2 = $htmlBody")
+        println("결과값3 = $moreViewLink")
+        println("결과값4 = ${bookDtoList.toString()}")
+        println("결과값5 = $bookSearchTotalCount")
 
         return LibrarySearchServiceResponse.of(
             bookDtoList,
@@ -108,8 +118,7 @@ class LibrarySearchServiceImpl(
 
 
     override fun smallBusinessLibrarySearch(searchKeyword: String): LibrarySearchServiceResponse {
-        // TODO 기본 URL 불러오기까지는 가능하게 해놨다.
-        //   이제 값을 가져오기만 하면 될듯 하다.
+
 
         val basicUrl: String = SmallBusinessLibrary.basicUrlCreate(searchKeyword)
 

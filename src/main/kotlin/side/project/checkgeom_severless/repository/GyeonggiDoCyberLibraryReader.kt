@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import org.springframework.web.client.RestClient
+import org.springframework.web.client.body
 import side.project.checkgeom_severless.repository.library.gyeonggidocyberlibrary.GyeonggiDoCyberLibrary
 import side.project.checkgeom_severless.repository.library.gyeonggidocyberlibrary.GyeonggiDoCyberLibraryBookType
 import side.project.checkgeom_severless.repository.library.gyeonggidocyberlibrary.GyeonggiDoCyberLibraryMoreViewType
@@ -22,8 +24,20 @@ import java.util.function.Function
 import java.util.regex.Pattern
 
 @Component
-class GyeonggiDoCyberLibraryReader(private val libraryBookInfoReader: LibraryBookInfoReader) {
+class GyeonggiDoCyberLibraryReader(
+    private val libraryBookInfoReader: LibraryBookInfoReader ,
+    private val restClient: RestClient
+) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
+
+
+    fun getHtml () : String? {
+        return restClient.get()
+            .uri(GyeonggiDoCyberLibrary.basicSearchUrlCreate("스프링"))
+            .retrieve()
+            .body<String>()
+    }
+
 
 
     fun searchBookList(htmlBody: Element): List<LibrarySearchServiceResponse.BookDto> {
@@ -44,34 +58,12 @@ class GyeonggiDoCyberLibraryReader(private val libraryBookInfoReader: LibraryBoo
             .filterNot { it.text().contains("오디오북") } // "오디오북"이 포함되지 않은 요소 필터링
             .map { mapGyeonggiDoCyberLibraryMoreViewType(it) } // 매핑하여 결과 리스트 생성
     }
-//
-//    fun isMoreViewList(htmlBody: Element): List<GyeonggiDoCyberLibraryMoreViewType> {
-//        val totalSearchBook = htmlBody.select("h5.searchH")
-//        val audiobookFilterList =
-//            totalSearchBook.stream().filter { element: Element -> !element.text().contains("오디오북") }
-//                .toList()
-//
-//        return audiobookFilterList.stream()
-//            .map(element: Element -> mapGyeonggiDoCyberLibraryMoreViewType(element) )
-//            .toList()
-//    }
-
 
     fun getGyeonggiDoCyberLibraryResponse(htmlBody: Element): List<LibraryRepositoryResponse> {
         return htmlBody.select("li.bookItem.row")
             .map { getGyeonggiDoCyberLibraryRepositoryResponse(it) } // 매핑하여 결과 리스트 생성
     }
 
-//    fun getGyeonggiDoCyberLibraryResponse(htmlBody: Element): List<LibraryRepositoryResponse> {
-//        val searchBookItems = htmlBody.select("li.bookItem.row")
-//        return searchBookItems.stream()
-//            .map(Function<Element, R> { htmlElement: Element ->
-//                this.getGyeonggiDoCyberLibraryRepositoryResponse(
-//                    htmlElement
-//                )
-//            })
-//            .toList()
-//    }
 
     private fun getGyeonggiDoCyberLibraryRepositoryResponse(
         htmlElement: Element
@@ -129,24 +121,6 @@ class GyeonggiDoCyberLibraryReader(private val libraryBookInfoReader: LibraryBoo
             emptyList() // 빈 리스트 반환
         }
     }
-
-//    fun getMoreViewLinks(searchKeyword: String?, htmlBody: Element): List<String> {
-//        val moreViewList: List<GyeonggiDoCyberLibraryMoreViewType> = isMoreViewList(htmlBody)
-//
-//        val isMoreView = moreViewList.stream().anyMatch(GyeonggiDoCyberLibraryMoreViewType::isMoreView)
-//
-//        if (isMoreView) {
-//            return moreViewList.stream()
-//                .map<Any>(Function<GyeonggiDoCyberLibraryMoreViewType, Any> { viewType: GyeonggiDoCyberLibraryMoreViewType? ->
-//                    GyeonggiDoCyberLibrary.moreViewSearchUrlCreate(
-//                        searchKeyword,
-//                        viewType
-//                    )
-//                })
-//                .toList()
-//        }
-//        return ArrayList()
-//    }
 
 
     fun getBookSearchTotalCount(htmlBody: Element): Int {
